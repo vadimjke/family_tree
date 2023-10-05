@@ -22,6 +22,9 @@ app.get("/script.js", (req, res) => {
         console.log("Response has been sended");
     })();
 });
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
 app.listen(port, () => {
     console.log(`Express started on port ${port}`);
