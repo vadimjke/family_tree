@@ -1,0 +1,106 @@
+# family_tree_parser
+
+Type `npm i` to install dependencies
+Type `npm run dev` in cmd to start script
+
+There will be `parsed.json` file in folder
+
+### JSON structure:
++ personsListObj
+    + 0
+        + personName
+		+ personHREF
+		+ personBorn
+		+ personDied
+		+ personProfile
+			+ personName
+			+ personBorn
+			+ personDied
+			+ personImageSrc
+			+ personProfession
+			+ personEducation
+			+ personMilitary
+			+ personAwards
+				+ 0
+				+ 1
+				+ 2
+				+ ...
+			+ personFamilyTies
+				+ 0
+					+ 0
+						+ context
+						+ className (rodstv)
+					+ 1
+						+ context
+						+ className (person2)
+					+ 2
+					+ ...
+				+ 1
+				+ 2
+				+ ...
+			+ personPhotoAlbum
+				+ 0
+				+ 1
+				+ 2
+				+ ...
+			+ personBiography
+				+ 0
+				+ 1
+				+ 2
+				+ ...
+    + 1
+    + 2
+    + ...
++ groupObj
+    + 0
+		+ groupName
+    	+ groupHREF
+    	+ groupPersons
+			+ 0
+				+ personName
+				+ personHREF
+			+ 1
+			+ 2
+			+ ...
+    + 1
+    + 2
+	+ ...
++ statsObj
+ 	+ summaryPersons
+		+ summaryPersonsName
+		+ summaryPersonsValue
+	+ summaryPersonsAlive
+		+ summaryPersonsAliveName
+		+ summaryPersonsAliveValue
+	+ summaryPersonsMen
+		+ summaryPersonsMenName
+		+ summaryPersonsMenValue
+	+ summaryPersonsWomen
+		+ summaryPersonsWomenName
+		+ summaryPersonsWomenValue
+	+ summaryLinksParentChildren
+		+ summaryLinksParentChildrenName
+		+ summaryLinksParentChildrenValue
+	+ summaryLinksHusbandWife
+		+ summaryLinksHusbandWifeName
+		+ summaryLinksHusbandWifeValue
++ treesObj
+	+ 0
+		+ context
+		+ href
+		+ treeImageSrc
+	+ 1
+	+ 2
+	+ ...
++ photoalbumsObj
+	+ 0
+		+ context
+		+ href
+		+ photoalbumsImages
+			+ 0
+			+ 1
+			+ 2
+			+ ...
+	+ 1
+	+ 2
+	+ ...
