@@ -1,5 +1,6 @@
 const getNavigationMenuElements = require("./util/get_navigation_menu_elements");
 const createLink = require("./util/create_link");
+const testData = require("./test/test_data");
 
 const parsePersonList = require("./util/parse_person_list");
 const parseGroups = require("./util/parse_groups");
@@ -11,74 +12,77 @@ const puppeteer = require("puppeteer");
 const express = require("express");
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
 app.get("/script.js", (req, res) => {
-    (async function main() {
-        console.log("Starting script");
-        let parsedData = await getData();
-        console.log("End of script");
-        res.json(parsedData);
-        console.log("Response has been sended");
-    })();
+  (async function main() {
+    console.log("Starting parsing");
+    let parsedData = await getData();
+    console.log("Ending parsing");
+
+    if (!testData(parsedData)) {
+      res.send("Object has missing properties");
+    } else {
+      console.log("Data has been tested");
+
+      res.json(parsedData);
+      console.log("Response has been sended");
+    }
+  })();
 });
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
 
 app.listen(port, () => {
-    console.log(`Express started on port ${port}`);
+  console.log(`Express started on port ${port}`);
 });
 
 async function getData() {
-    /* --------------------------
-            SETUP BROWSER SECTION
-       -------------------------- */
+  /* --------------------------
+          SETUP BROWSER SECTION
+     -------------------------- */
 
-    // Launch the browser and open a new blank page
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
+  // Launch the browser and open a new blank page
+  const browser = await puppeteer.launch({
+    headless: true,
+  });
+  const page = await browser.newPage();
 
-    // Navigate the page to a URL
-    await page.goto(createLink("/index.html"));
+  // Navigate the page to a URL
+  await page.goto(createLink("/index.html"));
 
-    /* --------------------------
-            PARSE SECTION
-       -------------------------- */
+  /* --------------------------
+          PARSE SECTION
+     -------------------------- */
 
-    const navigationElementsArray = await getNavigationMenuElements(page);
+  const navigationElementsArray = await getNavigationMenuElements(page);
 
-    const personsListArray = await parsePersonList(navigationElementsArray, page);
-    const groupArray = await parseGroups(navigationElementsArray, page);
-    const statsArray = await parseStats(navigationElementsArray, page);
-    const treesArray = await parseTrees(navigationElementsArray, page);
-    const photoalbumsArray = await parsePhotoalbums(
-        navigationElementsArray,
-        page
-    );
+  const personsListArray = await parsePersonList(navigationElementsArray, page);
+  const groupArray = await parseGroups(navigationElementsArray, page);
+  const statsArray = await parseStats(navigationElementsArray, page);
+  const treesArray = await parseTrees(navigationElementsArray, page);
+  const photoalbumsArray = await parsePhotoalbums(
+    navigationElementsArray,
+    page
+  );
 
-    /* --------------------------
-            CREATE JSON SECTION
-       -------------------------- */
+  /* --------------------------
+          CREATE JSON SECTION
+     -------------------------- */
 
-    const personsListObj = Object.assign({}, personsListArray);
-    const groupObj = Object.assign({}, groupArray);
-    const statsObj = Object.assign({}, statsArray);
-    const treesObj = Object.assign({}, treesArray);
-    const photoalbumsObj = Object.assign({}, photoalbumsArray);
+  const personsListObj = Object.assign({}, personsListArray);
+  const groupObj = Object.assign({}, groupArray);
+  const statsObj = Object.assign({}, statsArray);
+  const treesObj = Object.assign({}, treesArray);
+  const photoalbumsObj = Object.assign({}, photoalbumsArray);
 
-    const finalObj = {
-        personsListObj,
-        groupObj,
-        statsObj,
-        treesObj,
-        photoalbumsObj,
-    };
+  const finalObj = {
+    personsListObj,
+    groupObj,
+    statsObj,
+    treesObj,
+    photoalbumsObj,
+  };
 
-    await browser.close();
+  await browser.close();
 
-    return finalObj;
+  return finalObj;
 }
