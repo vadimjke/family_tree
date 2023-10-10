@@ -33,6 +33,10 @@ app.get("/script.js", (req, res) => {
         }
     })();
 });
+app.get('/download', function(req, res) {
+    const file = `data.json`;
+    res.download(file);
+});
 
 app.listen(port, () => {
     console.log(`Express started on port ${port}`);
@@ -88,5 +92,13 @@ async function getData() {
 
     await browser.close();
 
-    return finalObj;
+    // return finalObj;
+    fs.writeFile("data.json", jsonContent, 'utf8', function(err) {
+        if (err) {
+            console.log("An error occured while writing JSON Object to File.");
+            return console.log(err);
+        }
+
+        console.log("JSON file has been saved.");
+    });
 }
