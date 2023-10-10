@@ -12,10 +12,10 @@ const puppeteer = require("puppeteer");
 const express = require("express");
 const cors = require('cors');
 
-app.use(cors());
-
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 app.get("/script.js", (req, res) => {
     (async function main() {
