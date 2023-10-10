@@ -11,6 +11,7 @@ const parsePhotoalbums = require("./util/parse_photoalbums");
 const puppeteer = require("puppeteer");
 const express = require("express");
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
